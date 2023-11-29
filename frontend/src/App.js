@@ -71,6 +71,9 @@ const App = () => {
     // Remove the token from the cookie
     removeCookie('authToken');
 	localStorage.clear();
+  setCart([]);
+  // Remove the 'cart' key from localStorage
+  localStorage.removeItem('cart');
   };
   
   // Function to remove a cookie
