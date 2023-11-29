@@ -15,6 +15,7 @@ const backendBasePath = "http://localhost:8081/";
 const App = () => {
   const [userRole, setUserRole] = useState(''); // New state for user role
   const [user, setUser] = useState(null);
+  const [storeuser, setStoreUser] = useState(null);
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for login status
@@ -24,6 +25,10 @@ const App = () => {
     const auth = localStorage.getItem("authToken");
     if (auth){
 		let uData = localStorage.getItem('userInfo');
+    let uSData = JSON.parse(localStorage.getItem('userInfo'));
+    console.log('Parsed user data:', uSData);
+    setStoreUser(uSData.email);
+    setUserRole(uSData.role);
 		setUser(uData);
       	setIsLoggedIn(true);
 	}
@@ -40,7 +45,7 @@ const App = () => {
         console.error('Error fetching products:', error);
         // Handle error, show a message, etc.
       }
-    }; 
+    };
     fetchProducts();
   }, []);
 
@@ -48,6 +53,10 @@ const App = () => {
     setUser(userData);
     setUserRole(userData.role);
     setIsLoggedIn(true); // Update login status
+    let uSData = JSON.parse(localStorage.getItem('userInfo'));
+    console.log('Parsed user data:', uSData);
+    setStoreUser(uSData.email);
+    setUserRole(uSData.role);
   };
 
   const handleLogout = () => {
@@ -105,7 +114,7 @@ const App = () => {
         // User is logged in, show the welcome message, logout button, and product list
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <h1>Welcome, {user.username}!</h1>
+            <h1>Welcome, {storeuser}!</h1>
             <Button variant="contained" color="primary" onClick={handleLogout}>
               Logout
             </Button>
@@ -113,7 +122,7 @@ const App = () => {
           <Grid item xs={12} md={8}>
             <ProductList products={products} setProducts={setProducts} onAddToCart={handleAddToCart} userRole={userRole} />
           </Grid>
-          {userRole !== 'admin' && (
+          {userRole != '1' && (
             <Grid item xs={12} md={4}>
               <Cart cart={cart} onCheckout={handleCheckout} />
             </Grid>

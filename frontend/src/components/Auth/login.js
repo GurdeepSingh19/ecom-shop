@@ -24,7 +24,7 @@ const Login = ({ onLogin, onRegister }) => {
           localStorage.setItem('authToken', res.data.token);
           localStorage.setItem('userInfo', JSON.stringify(user));
           const role = user.role === 1 ? 'admin' : 'customer';
-          onLogin({ username, role });
+          onLogin({ user, role });
         }
         else {
           // Display an error message when login details are incorrect

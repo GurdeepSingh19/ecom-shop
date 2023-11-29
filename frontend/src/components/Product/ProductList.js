@@ -11,6 +11,7 @@ import axios from 'axios';
 const backendBasePath = "http://localhost:8081/";
 
 const ProductList = ({ products, setProducts, user, onAddToCart, onEditProduct, userRole }) => {
+  
 const [editProduct, setEditProduct] = useState(null);
 const [productList, setProductList] = useState(products);
 
@@ -68,10 +69,11 @@ const [productList, setProductList] = useState(products);
             <CardHeader title={product.name} subheader={`$${product.price.toFixed(2)}`} />
             <CardContent>
               <Typography variant="body2" color="textSecondary">
+                
                 {product.description}
               </Typography>
               <p></p>
-              {userRole !== 'admin' && (
+              {userRole != '1' && (
                 <Button
                   variant="contained"
                   color="primary"
@@ -80,7 +82,7 @@ const [productList, setProductList] = useState(products);
                   Add to Cart
                 </Button>
               )}
-              {userRole === 'admin' && (
+              {userRole == '1' && (
                 <Button
                   variant="contained"
                   color="primary"
