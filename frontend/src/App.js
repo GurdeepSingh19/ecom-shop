@@ -33,6 +33,11 @@ const App = () => {
       	setIsLoggedIn(true);
 	}
   }, [])
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(storedCart);
+  }, []);
+  
 
   useEffect(() => {
 	const auth = localStorage.getItem("authToken");
@@ -86,20 +91,28 @@ const App = () => {
 
   const handleAddToCart = (product) => {
     const existingItem = cart.find((item) => item.sku === product.sku);
-
+  
     if (existingItem) {
       // Product already in the cart, increment the quantity
       setCart((prevCart) => {
         const updatedCart = prevCart.map((item) =>
           item.sku === product.sku ? { ...item, quantity: item.quantity + 1 } : item
         );
+        // Update localStorage when the cart changes
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
         return updatedCart;
       });
     } else {
       // Product not in the cart, add it with quantity 1
-      setCart((prevCart) => [...prevCart, { ...product, quantity: 1 }]);
+      setCart((prevCart) => {
+        const updatedCart = [...prevCart, { ...product, quantity: 1 }];
+        // Update localStorage when the cart changes
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        return updatedCart;
+      });
     }
   };
+  
 
   const handleCheckout = () => {
     // Implement your checkout logic here
