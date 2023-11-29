@@ -40,7 +40,7 @@ const App = () => {
         console.error('Error fetching products:', error);
         // Handle error, show a message, etc.
       }
-    };
+    }; 
     fetchProducts();
   }, []);
 
